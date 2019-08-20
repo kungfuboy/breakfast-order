@@ -37,7 +37,10 @@ export default {
         this.data[index].push({ value: "", number: 0 })
     },
     async handlePost() {
-        const res = await this.$axios.post('http://127.0.0.1:3030/api/pushData', this.data)
+        const res = await this.$axios.post('http://127.0.0.1:3030/api/pushData', {
+            name: this.name, 
+            order: this.data
+        })
     }
   }
 };
