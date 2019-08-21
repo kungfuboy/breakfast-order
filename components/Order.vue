@@ -1,13 +1,16 @@
 <template>
   <section class="order">
-    <el-input v-model="name" placeholder="请输入姓名"></el-input>
+    <div class="order-title">
+      <el-input v-model="name" placeholder="请输入姓名"></el-input>
+      <i class="button" @click="handleSearch"></i>
+    </div>
     <div class="order-main" v-for="(day, index) in days" :key="index">
       <div class="title">
-        <span>星期{{day}}</span>
+        <span>下周{{day}}({{week[index]}})</span>
         <i class="add" @click="handleAdd(index)"></i>
       </div>
       <div class="choose" v-for="(its, i) in data[index]" :key="i">
-        <el-select v-model="its.value" placeholder="请选择面点">
+        <el-select v-model="its.code" placeholder="请选择面点">
           <el-option
             v-for="item in options"
             :key="item.code"
@@ -23,24 +26,50 @@
 </template>
 <script>
 import options from "@/assets/data.js";
+const getWeek = () => {
+  const week = [];
+  for (let i = 0; i < 7; i++) {
+    let Stamp = new Date();
+    let num = 7 - Stamp.getDay() + 1 + i;
+    Stamp.setDate(Stamp.getDate() + num);
+    week[i] = Stamp.getMonth() + 1 + "月" + Stamp.getDate() + "日";
+  }
+  return week;
+};
 
 export default {
   name: "Order",
   data: () => ({
     name: "",
-    data: [0, 1, 2, 3, 4].map(() => [{ value: "", number: 0 }]),
+    data: [0, 1, 2, 3, 4].map(() => [{ code: "", number: 0 }]),
     days: ["一", "二", "三", "四", "五"],
+    week: getWeek(),
     options: options
   }),
   methods: {
     handleAdd(index) {
-        this.data[index].push({ value: "", number: 0 })
+      this.data[index].push({ code: "", number: 0 });
     },
     async handlePost() {
-        const res = await this.$axios.post('http://127.0.0.1:3030/api/pushData', {
-            name: this.name, 
-            order: this.data
-        })
+      if (!this.name) {
+        this.$message.error("请先输入姓名");
+        return;
+      }
+      const res = await this.$axios.post("http://127.0.0.1:3030/api/pushData", {
+        name: this.name,
+        order: this.data.map(arr => arr.filter(li => !!li.code && !!li.number))
+      });
+    },
+    async handleSearch() {
+      if (!this.name) {
+        return;
+      }
+      const { data } = await this.$axios.get(
+        `http://127.0.0.1:3030/api/search?name=${this.name}`
+      );
+      if (data.data) {
+        this.data = data.data;
+      }
     }
   }
 };
@@ -60,16 +89,18 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      color: #677;
       .add {
         display: inline-block;
         background-color: #178bb2;
-        background-image: url('../assets/icon/add.svg');
+        background-image: url("../assets/icon/add.svg");
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 70% 70%;
         width: 25px;
         height: 25px;
         border-radius: 50%;
+        box-shadow: 0 0 5px rgba(23, 139, 178, 0.6);
       }
     }
   }
@@ -89,6 +120,24 @@ export default {
   &.el-button--primary {
     background-color: #178bb2;
     border-color: #178bb2;
+  }
+}
+.order-title {
+  display: flex;
+  .button {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    background-color: #178bb2;
+    border-color: #178bb2;
+    box-shadow: 0 0 5px rgba(23, 139, 178, 0.6);
+    margin-left: 15px;
+    flex-shrink: 0;
+    background-image: url("../assets/icon/search.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 70%;
+    outline: none;
   }
 }
 </style>

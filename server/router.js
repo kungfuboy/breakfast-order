@@ -6,27 +6,40 @@ const Redis = require('koa-redis')
 const Store = new Redis().client
 
 // router.prefix('/api')
-const _toString = (str) => unescape(str.replace(/\\u/g, '%u'))
-
-
 
 router
 .post('/api/pushData', (ctx, next) => {
     // req
     const {name, order} = ctx.request.body
-    const key = name.charCodeAt(0).toString(16)
+    const key = escape(name)
     Store.hset('order', key, JSON.stringify(order))
     ctx.response.type = 'json'
     ctx.response.body = { data: 'ok' }
 })
-.get('/api/getData', async (ctx, next) => {
-    const arr = await Store.hkeys('order')
-    const res = await Promise.all(arr.map(async item => ({
-        name: _toString(item),
-        order: await Store.hget('order', item)
-    })))
+.post('/api/changeMenu', (ctx, next) => {
+    const {data} = ctx.request.body
+    Store.hset('menu', 'menuList', JSON.stringify(data))
     ctx.response.type = 'json'
-    ctx.response.body = { data: 'ok' }
+    ctx.response.body = { success: true, data: 'ok' }
+})
+.get('/api/getData', async (ctx, next) => {
+    // req
+    const arr = await Store.hkeys('order')
+    console.log(arr)
+    const res = await Promise.all(arr.map(async item => ({
+        name: unescape(item),
+        order: JSON.parse(await Store.hget('order', item))
+    })))
+    // res
+    ctx.response.type = 'json'
+    ctx.response.body = { data: res }
+})
+.get('/api/search', async (ctx, next) => {
+    const {name} = ctx.query
+    const res = await Store.hget('order', escape(name))
+    // res
+    ctx.response.type = 'json'
+    ctx.response.body = { data: JSON.parse(res) || null }
 })
 
 module.exports = router

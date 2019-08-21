@@ -1,0 +1,22 @@
+* {
+    box-sizing: border-box;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .main {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+  header {
+    background: #178bb2;
+    height: 50px;
+    color: #fff;
+    display: flex;
+    flex-shrink: 0;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px #178bb2;
+  }
