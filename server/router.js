@@ -14,7 +14,7 @@ router
     const key = escape(name)
     Store.hset('order', key, JSON.stringify(order))
     ctx.response.type = 'json'
-    ctx.response.body = { data: 'ok' }
+    ctx.response.body = { status: 200, data: 'ok' }
 })
 .post('/api/changeMenu', (ctx, next) => {
     const {data} = ctx.request.body

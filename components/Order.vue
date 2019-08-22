@@ -55,10 +55,13 @@ export default {
         this.$message.error("请先输入姓名");
         return;
       }
-      const res = await this.$axios.post("http://106.53.78.76:3030/api/pushData", {
+      const {data} = await this.$axios.post("http://106.53.78.76:3030/api/pushData", {
         name: this.name,
         order: this.data.map(arr => arr.filter(li => !!li.code && !!li.number))
       });
+      if(data.status === 200) {
+        this.$message.success('下单成功！')
+      }
     },
     async handleSearch() {
       if (!this.name) {
@@ -92,11 +95,12 @@ export default {
       color: #677;
       .add {
         display: inline-block;
-        background-color: #178bb2;
+        background-color: #fff;
         background-image: url("../assets/icon/add.svg");
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 70% 70%;
+        border: 1px solid #178bb2;
         width: 25px;
         height: 25px;
         border-radius: 50%;
@@ -124,6 +128,7 @@ export default {
 }
 .order-title {
   display: flex;
+  margin-bottom: 30px;
   .button {
     width: 40px;
     height: 40px;
