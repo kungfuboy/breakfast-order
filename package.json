@@ -9,6 +9,7 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "server": "nodemon server/server.js --watch",
+    "deploy": "pm2 stop all && nuxt build && pm2 start npm --name breakfast -- run start",
     "generate": "nuxt generate"
   },
   "config": {
