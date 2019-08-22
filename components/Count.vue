@@ -198,7 +198,11 @@ h1 {
 .el-button {
   width: 100%;
   margin: 20px 0;
-  &.el-button--primary {
+  &.el-button--primary, 
+  &.el-button--primary.is-active, 
+  &.el-button--primary:focus, 
+  &.el-button--primary:hover
+  &.el-button--primary:active  {
     background-color: #178bb2;
     border-color: #178bb2;
   }

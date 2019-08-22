@@ -59,7 +59,7 @@ export default {
     handleAdd() {
       this.list.push({ code: Date.now(), label: "", price: 0 });
       this.handleEdit(this.list.length - 1);
-      this.activeIndex = this.list.length - 1
+      this.activeIndex = this.list.length - 1;
     },
     async handleChange(index) {
       this.list[index] = this.editData;
@@ -162,5 +162,12 @@ export default {
   margin-top: 20px;
   background-color: #178bb2;
   border-color: #178bb2;
+  &.el-button--primary,
+  &.el-button--primary.is-active,
+  &.el-button--primary:focus,
+  &.el-button--primary:hover &.el-button--primary:active {
+    background-color: #178bb2;
+    border-color: #178bb2;
+  }
 }
 </style>
