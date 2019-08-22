@@ -14,7 +14,7 @@
           <el-option
             v-for="item in options"
             :key="item.code"
-            :label="item.label"
+            :label="`${item.label} - ￥${item.price}元`"
             :value="item.code"
           ></el-option>
         </el-select>
