@@ -10,7 +10,7 @@
         <i class="add" @click="handleAdd(index)"></i>
       </div>
       <div class="choose" v-for="(its, i) in data[index]" :key="i">
-        <el-select v-model="its.code" @change="hanldeChange(index)" placeholder="请选择面点">
+        <el-select v-model="its.code" @change="hanldeChange(index, i)" placeholder="请选择面点">
           <el-option
             v-for="item in options"
             :key="item.code"
@@ -63,9 +63,9 @@ export default {
         this.$message.success('下单成功！')
       }
     },
-    hanldeChange(index) {
-      const {number} = this.data[index]
-      number === 0 && (this.data[index].number = 1)
+    hanldeChange(index, i) {
+      const {number} = this.data[index][i]
+      number === 0 && (this.data[index][i].number = 1)
     },
     async handleSearch() {
       if (!this.name) {
