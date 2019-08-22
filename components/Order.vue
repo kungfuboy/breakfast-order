@@ -55,7 +55,7 @@ export default {
         this.$message.error("请先输入姓名");
         return;
       }
-      const res = await this.$axios.post("http://127.0.0.1:3030/api/pushData", {
+      const res = await this.$axios.post("http://106.53.78.76:3030/api/pushData", {
         name: this.name,
         order: this.data.map(arr => arr.filter(li => !!li.code && !!li.number))
       });
@@ -65,7 +65,7 @@ export default {
         return;
       }
       const { data } = await this.$axios.get(
-        `http://127.0.0.1:3030/api/search?name=${this.name}`
+        `http://106.53.78.76:3030/api/search?name=${this.name}`
       );
       if (data.data) {
         this.data = data.data;

@@ -12,7 +12,7 @@ export default {
   },
   data: () => ({list: []}),
   async asyncData({ $axios }) {
-    const { data } = await $axios.get("http://127.0.0.1:3030/api/getData");
+    const { data } = await $axios.get("http://106.53.78.76:3030/api/getData");
     console.log("lst", data.data);
     return { list: data.data };
   }

@@ -45,7 +45,7 @@ export default {
     async handleDelete(index) {
       this.list.splice(index, 1);
       const { data } = await this.$axios.post(
-        "http://127.0.0.1:3030/api/changeMenu",
+        "http://106.53.78.76:3030/api/changeMenu",
         { data: this.list.filter(item => !!item.label && !!item.price) }
       );
       if (data.success) {
@@ -65,7 +65,7 @@ export default {
       this.list[index] = this.editData;
       this.editData = null;
       const { data } = await this.$axios.post(
-        "http://127.0.0.1:3030/api/changeMenu",
+        "http://106.53.78.76:3030/api/changeMenu",
         { data: this.list.filter(item => !!item.label && !!item.price) }
       );
       if (data.success) {
