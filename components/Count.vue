@@ -108,7 +108,7 @@ export default {
         price += item.number * data.price;
         num += item.number
       });
-      return `￥${price} * ${num}个`;
+      return `￥${price} - ${num}个`;
     },
     personFilter(arr) {
       return arr.map(item => item.number * item.price).reduce((item, n) => item += n)
