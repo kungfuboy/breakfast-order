@@ -123,6 +123,8 @@ export default {
   }
 }
 .el-button {
+  height: 40px;
+  flex-shrink: 0;
   &.el-button--primary {
     background-color: #178bb2;
     border-color: #178bb2;

@@ -163,6 +163,8 @@ export default {
   }
 }
 .el-button {
+  height: 40px;
+  flex-shrink: 0;
   margin-top: 20px;
   background-color: #178bb2;
   border-color: #178bb2;

@@ -2,20 +2,23 @@
   <section class="count">
     <h1>下周总计：￥{{getWeekPrice(getData)}}元</h1>
     <div v-for="(item, index) in days" :key="index" class="days">
-      <span class="some-day">星期{{item}}({{week[index]}}): ￥{{ countDayPrice(getData[index]) }}元</span>
+      <div class="some-day">
+        <span>星期{{item}}({{week[index]}})</span> 
+        <span>￥{{ countDayPrice(getData[index]) }}元</span>
+      </div>
       <table class="table">
         <thead>
           <tr>
-            <th width="45%">面点</th>
+            <th width="35%">面点</th>
             <th width="45%">明细</th>
-            <th width="10%">合计</th>
+            <th width="20%">合计</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(food, key) in getData[index]" :key="key">
             <td>{{key | typeFilter(typeList)}}</td>
             <td>{{ food | detailFilter }}</td>
-            <td>{{ food | countFilter(key, typeList) }}</td>
+            <td align="center">{{ food | countFilter(key, typeList) }}</td>
           </tr>
         </tbody>
       </table>
@@ -100,11 +103,12 @@ export default {
     },
     countFilter(food, key, list) {
       const [data] = list.filter(item => Number(key) === item.code);
-      let num = 0;
+      let price = 0, num = 0;
       food.forEach(item => {
-        num += item.number * data.price;
+        price += item.number * data.price;
+        num += item.number
       });
-      return num;
+      return `￥${price} * ${num}个`;
     },
     personFilter(arr) {
       return arr.map(item => item.number * item.price).reduce((item, n) => item += n)
@@ -160,9 +164,12 @@ h1 {
   .some-day {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     margin-top: 20px;
     color: #178bb2;
     font-weight: bold;
+    font-size: 14px;
+    font-weight: 500;
   }
   .table {
     width: 100%;
@@ -196,6 +203,8 @@ h1 {
   }
 }
 .el-button {
+  height: 40px;
+  flex-shrink: 0;
   width: 100%;
   margin: 20px 0;
   &.el-button--primary, 
