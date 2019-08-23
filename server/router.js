@@ -22,6 +22,11 @@ router
     ctx.response.type = 'json'
     ctx.response.body = { success: true, data: 'ok' }
 })
+.get('/api/getMenu', async (ctx, next) => {
+    const data = await Store.hget('menu', 'menuList')
+    ctx.response.type = 'json'
+    ctx.response.body = { data: JSON.parse(data) }
+})
 .get('/api/getData', async (ctx, next) => {
     // req
     const arr = await Store.hkeys('order')

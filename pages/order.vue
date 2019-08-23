@@ -1,17 +1,22 @@
 <template>
-    <section class="main">
-       <header>下单</header>
-       <Order />
-    </section>
+  <section class="main">
+    <header>下单</header>
+    <Order :options="options" />
+  </section>
 </template>
 <script>
-import Order from '@/components/Order.vue'
+import Order from "@/components/Order.vue";
 export default {
-    components: {
-        Order
-    }
-}
+  data: () => ({ options: [] }),
+  components: {
+    Order
+  },
+  async asyncData({ $axios }) {
+    const { data } = await $axios.get("/api/getMenu");
+    return { options: data.data };
+  }
+};
 </script>
 <style lang="scss">
-@import '../assets/styles/header.scss';
+@import "../assets/styles/header.scss";
 </style>

@@ -25,7 +25,7 @@
   </section>
 </template>
 <script>
-import options from "@/assets/data.js";
+// import options from "@/assets/data.js";
 const getWeek = () => {
   const week = [];
   for (let i = 0; i < 7; i++) {
@@ -39,12 +39,12 @@ const getWeek = () => {
 
 export default {
   name: "Order",
+  props: ['options'],
   data: () => ({
     name: "",
     data: [0, 1, 2, 3, 4].map(() => [{ code: "", number: 0 }]),
     days: ["一", "二", "三", "四", "五"],
-    week: getWeek(),
-    options: options
+    week: getWeek()
   }),
   methods: {
     handleAdd(index) {
@@ -55,25 +55,23 @@ export default {
         this.$message.error("请先输入姓名");
         return;
       }
-      const {data} = await this.$axios.post("/api/pushData", {
+      const { data } = await this.$axios.post("/api/pushData", {
         name: this.name,
         order: this.data.map(arr => arr.filter(li => !!li.code && !!li.number))
       });
-      if(data.status === 200) {
-        this.$message.success('下单成功！')
+      if (data.status === 200) {
+        this.$message.success("下单成功！");
       }
     },
     hanldeChange(index, i) {
-      const {number} = this.data[index][i]
-      number === 0 && (this.data[index][i].number = 1)
+      const { number } = this.data[index][i];
+      number === 0 && (this.data[index][i].number = 1);
     },
     async handleSearch() {
       if (!this.name) {
         return;
       }
-      const { data } = await this.$axios.get(
-        `/api/search?name=${this.name}`
-      );
+      const { data } = await this.$axios.get(`/api/search?name=${this.name}`);
       if (data.data) {
         this.data = data.data;
       }

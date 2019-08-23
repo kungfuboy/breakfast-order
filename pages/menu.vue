@@ -33,14 +33,18 @@
   </section>
 </template>
 <script>
-import data from "@/assets/data.js";
+// import data from "@/assets/data.js";
 
 export default {
   data: () => ({
-    list: data,
+    list: [],
     editData: null,
     activeIndex: null
   }),
+  async asyncData({ $axios }) {
+    const { data } = await $axios.get('/api/getMenu')
+    return { list: data.data }
+  },
   methods: {
     async handleDelete(index) {
       this.list.splice(index, 1);

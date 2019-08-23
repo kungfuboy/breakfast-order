@@ -13,9 +13,9 @@
         </thead>
         <tbody>
           <tr v-for="(food, key) in getData[index]" :key="key">
-            <td>{{key | typeFilter}}</td>
+            <td>{{key | typeFilter(typeList)}}</td>
             <td>{{ food | detailFilter }}</td>
-            <td>{{ food | countFilter(key) }}</td>
+            <td>{{ food | countFilter(key, typeList) }}</td>
           </tr>
         </tbody>
       </table>
@@ -31,7 +31,7 @@
   </section>
 </template>
 <script>
-import typeList from "@/assets/data.js";
+// import typeList from "@/assets/data.js";
 const days = ["一", "二", "三", "四", "五"];
 const getWeek = () => {
   const week = [];
@@ -45,7 +45,7 @@ const getWeek = () => {
 };
 export default {
   name: "Count",
-  props: ["data"],
+  props: ["data", 'typeList'],
   data: () => ({ days: days, dayPrice: [], week: getWeek(), person: [] }),
   computed: {
     getData() {
@@ -91,15 +91,15 @@ export default {
     }
   },
   filters: {
-    typeFilter(key) {
-      const [data] = typeList.filter(item => Number(key) === item.code);
+    typeFilter(key, list) {
+      const [data] = list.filter(item => Number(key) === item.code);
       return `${data.label}(￥${data.price})`;
     },
     detailFilter(value) {
       return value.map(item => `${item.name}(${item.number})`).join(";");
     },
-    countFilter(food, key) {
-      const [data] = typeList.filter(item => Number(key) === item.code);
+    countFilter(food, key, list) {
+      const [data] = list.filter(item => Number(key) === item.code);
       let num = 0;
       food.forEach(item => {
         num += item.number * data.price;
@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     findPrice(code) {
-      const [data] = typeList.filter(item => Number(code) === item.code);
+      const [data] = this.typeList.filter(item => Number(code) === item.code);
       return data.price;
     },
     countDayPrice(data) {
@@ -122,7 +122,7 @@ export default {
       }
       let num = 0;
       keys.forEach((key, index) => {
-        const [_data] = typeList.filter(item => Number(key) === item.code);
+        const [_data] = this.typeList.filter(item => Number(key) === item.code);
         const _price = _data.price;
         const _number = data[key].map(item => item.number);
         _number.forEach(item => {

@@ -1,7 +1,7 @@
 <template>
   <section class="main">
     <header>统计</header>
-    <Count :data="list" />
+    <Count :data="list" :typeList="typeList" />
   </section>
 </template>
 <script>
@@ -10,10 +10,11 @@ export default {
   components: {
     Count
   },
-  data: () => ({list: []}),
+  data: () => ({list: [], typeList:[]}),
   async asyncData({ $axios }) {
     const { data } = await $axios.get("/api/getData");
-    return { list: data.data };
+    const res = await $axios.get("/api/getMenu");
+    return { list: data.data, typeList: res.data.data };
   }
 };
 </script>
