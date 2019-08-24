@@ -45,5 +45,10 @@ router
     ctx.response.type = 'json'
     ctx.response.body = { data: JSON.parse(res) || null }
 })
+.delete('/api/deleteOrder', (ctx, next) => {
+    Store.del('order')
+    ctx.response.type = 'json'
+    ctx.response.body = { success:true, data: 'ok' }
+})
 
 module.exports = router

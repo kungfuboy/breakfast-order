@@ -31,6 +31,7 @@
       </li>
     </ul>
     <el-button type="primary" @click="$router.push('/menu')">编辑菜单</el-button>
+    <el-button type="danger" @click="handleDeleteOrder">清除订单</el-button>
   </section>
 </template>
 <script>
@@ -134,6 +135,13 @@ export default {
         });
       });
       return num;
+    },
+    async handleDeleteOrder() {
+      const {data} = await this.$axios.delete('/api/deleteOrder')
+      if(data.success) {
+        this.$message.success('已删除所有订单记录')
+        this.$emit('update')
+      }
     },
     getWeekPrice(arr) {
       let num = 0;
