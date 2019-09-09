@@ -6,10 +6,17 @@
 </template>
 <script>
 import Order from "@/components/Order.vue";
+import dayjs from 'dayjs'
 export default {
   data: () => ({ options: [] }),
   components: {
     Order
+  },
+  beforeCreate() {
+      const day = dayjs(Date.now()).day()
+      if(!day) {
+        this.$router.push('error')
+      }
   },
   async asyncData({ $axios }) {
     const { data } = await $axios.get("/api/getMenu");
