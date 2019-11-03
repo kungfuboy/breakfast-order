@@ -12,12 +12,12 @@ export default {
   components: {
     Order
   },
-  beforeCreate() {
-      const day = dayjs(Date.now()).day()
-      if(!day) {
-        this.$router.push('error')
-      }
-  },
+  // beforeCreate() {
+  //     const day = dayjs(Date.now()).day()
+  //     if(!day) {
+  //       this.$router.push('error')
+  //     }
+  // },
   async asyncData({ $axios }) {
     const { data } = await $axios.get("/api/getMenu");
     return { options: data.data };
