@@ -35,18 +35,8 @@
   </section>
 </template>
 <script>
-// import typeList from "@/assets/data.js";
+import { getWeek } from '@/utils/index.js'
 const days = ["一", "二", "三", "四", "五"];
-const getWeek = () => {
-  const week = [];
-  for (let i = 0; i < 7; i++) {
-    let Stamp = new Date();
-    let num = 7 - Stamp.getDay() + 1 + i;
-    Stamp.setDate(Stamp.getDate() + num);
-    week[i] = Stamp.getMonth() + 1 + "月" + Stamp.getDate() + "日";
-  }
-  return week;
-};
 export default {
   name: "Count",
   props: ["data", 'typeList'],

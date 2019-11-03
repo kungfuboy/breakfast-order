@@ -25,17 +25,7 @@
   </section>
 </template>
 <script>
-// import options from "@/assets/data.js";
-const getWeek = () => {
-  const week = [];
-  for (let i = 0; i < 7; i++) {
-    let Stamp = new Date();
-    let num = 7 - Stamp.getDay() + 1 + i;
-    Stamp.setDate(Stamp.getDate() + num);
-    week[i] = Stamp.getMonth() + 1 + "月" + Stamp.getDate() + "日";
-  }
-  return week;
-};
+import { getWeek } from '@/utils/index.js'
 
 export default {
   name: "Order",
